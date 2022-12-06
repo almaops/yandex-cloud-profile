@@ -1,6 +1,6 @@
 # `ycp`: Just a tool to switch Yandex Cloud Profiles
 
-![Proudly written in Bash](https://img.shields.io/badge/written%20in-bash-ff69b4.svg)
+![Written in Bash](https://img.shields.io/badge/written%20in-bash-ff69b4.svg)
 
 This repository provides a `ycp` tool. [Install &rarr;](#installation)
 
@@ -38,15 +38,15 @@ Stable versions of `ycp` are small bash scripts that you can find in this reposi
 
 - [manually (macOS & Linux)](#manual-installation-macos-and-linux)
 
-### Manual Installation (macOS and Linux)
+### Manual Installation (MacOS and Linux)
 
-Since `ycp` is written in Bash, you should be able to install them to any POSIX
+Since `ycp` is written in Bash, you should be able to install it to any POSIX
 environment that has Bash installed.
 
 - Download the `ycp` script.
 - Either:
   - save it to somewhere in your `PATH`,
-  - or save them to a directory, then create symlinks to `ycp` from
+  - or save them to a directory, then create symlink to `ycp` from
     somewhere in your `PATH`, like `/usr/local/bin`
 - Make `ycp` executable (`chmod +x ...`)
 
@@ -68,8 +68,7 @@ If you have `fzf` installed, but want to opt out of using this feature, set the
 environment variable `YCP_IGNORE_FZF=1`.
 
 If you want to keep `fzf` interactive mode but need the default behavior of the
-command, you can do it by piping the output to another command (e.g. `ycp |
-cat `).
+command, you can do it by piping the output to another command (e.g. `ycp | cat `).
 
 -----
 
