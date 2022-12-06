@@ -8,6 +8,9 @@ This repository provides a `ycp` tool. [Install &rarr;](#installation)
 
 **ycp** is a tool to switch between profiles on [**yc**](https://cloud.yandex.ru/en/docs/cli/quickstart) faster.<br/>
 
+Here's a **`ycp`** demo:
+![ycp demo GIF](img/ycp-demo.gif)
+
 ### Examples
 
 ```sh
