@@ -8,7 +8,7 @@
 
 **ycp** -- это утилита для более быстрого перемещения между профилями [**yc**](https://cloud.yandex.ru/docs/cli/quickstart).<br/>
 
-Взгляните демо **`ycp`**:
+Демо **`ycp`**:
 ![ycp demo GIF](img/ycp-demo.gif)
 
 ### Примеры
