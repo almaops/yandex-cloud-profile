@@ -12,16 +12,16 @@ This repository provides a `ycp` tool. [Install &rarr;](#installation)
 
 ```sh
 # switch to another profile
-% ycp freehck-terraform-prod
-Profile 'freehck-terraform-prod' activated
+% ycp almaops-terraform-prod
+Profile 'almaops-terraform-prod' activated
 
 # switch back to previous profile
 % ycp -
-Profile 'freehck-terraform-dev' activated
+Profile 'almaops-terraform-dev' activated
 
 # get current yandex cloud profile
 % ycp -c
-freehck-terraform-dev
+almaops-terraform-dev
 ```
 
 If you have [`fzf`](https://github.com/junegunn/fzf) installed, you can also
