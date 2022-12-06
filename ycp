@@ -1,0 +1,189 @@
+#!/usr/bin/env bash
+#
+# ycp(1) is a utility to switch between yandex cloud profiles.
+
+# Copyright 2017 AlmaOPS
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+[[ -n $DEBUG ]] && set -x
+
+set -eou pipefail
+IFS=$'\n\t'
+
+SELF_CMD="$0"
+
+YCP="${XDG_CACHE_HOME:-$HOME/.yc}/ycp"
+
+usage() {
+  local SELF
+  SELF="ycp"
+
+  cat <<EOF
+USAGE:
+  $SELF                       : list the contexts
+  $SELF <NAME>                : switch to context <NAME>
+  $SELF -                     : switch to the previous context
+  $SELF -c, --current         : show the current context name
+
+  $SELF -h,--help             : show this message
+EOF
+}
+
+exit_err() {
+   echo >&2 "${1}"
+   exit 1
+}
+
+current_profile() {
+  $YC config profile list | awk '$2=="ACTIVE" {print $1}' | tr -d '\n'
+}
+
+get_profiles() {
+  $YC config profile list | awk '{print $1}'
+}
+
+list_profiles() {
+  set -u pipefail
+  local cur ctx_list
+  cur="$(current_profile)" || exit_err "error getting current profile"
+  ctx_list=$(get_profiles) || exit_err "error getting profile list"
+
+  local yellow darkbg normal
+  yellow=$(tput setaf 3 || true)
+  darkbg=$(tput setab 0 || true)
+  normal=$(tput sgr0 || true)
+
+  local cur_ctx_fg cur_ctx_bg
+  cur_ctx_fg=${YCP_CURRENT_FGCOLOR:-$yellow}
+  cur_ctx_bg=${YCP_CURRENT_BGCOLOR:-$darkbg}
+
+  for c in $ctx_list; do
+  if [[ -n "${_YCP_FORCE_COLOR:-}" || -t 1 && -z "${NO_COLOR:-}" ]]; then
+    if [[ "${c}" = "${cur}" ]]; then
+      echo "${cur_ctx_bg}${cur_ctx_fg}${c}${normal}"
+    else
+      echo "${c}"
+    fi
+  else
+    echo "${c}"
+  fi
+  done
+}
+
+read_profile() {
+  if [[ -f "${YCP}" ]]; then
+    cat "${YCP}"
+  fi
+}
+
+save_profile() {
+  local saved
+  saved="$(read_profile)"
+
+  if [[ "${saved}" != "${1}" ]]; then
+    printf %s "${1}" > "${YCP}"
+  fi
+}
+
+switch_profile() {
+  $YC config profile activate "${1}"
+}
+
+choose_profile_interactive() {
+  local choice
+  choice="$(_YCP_FORCE_COLOR=1 \
+    FZF_DEFAULT_COMMAND="${SELF_CMD}" \
+    fzf --ansi --no-preview || true)"
+  if [[ -z "${choice}" ]]; then
+    echo 2>&1 "error: you did not choose any of the options"
+    exit 1
+  else
+    set_profile "${choice}"
+  fi
+}
+
+set_profile() {
+  local prev
+  prev="$(current_profile)" || exit_err "error getting current profile"
+
+  switch_profile "${1}"
+
+  if [[ "${prev}" != "${1}" ]]; then
+    save_profile "${prev}"
+  fi
+}
+
+swap_profile() {
+  local ctx
+  ctx="$(read_profile)"
+  if [[ -z "${ctx}" ]]; then
+    echo "error: No previous profile found." >&2
+    exit 1
+  fi
+  set_profile "${ctx}"
+}
+
+main() {
+  if [[ -z "${YC:-}" ]]; then
+    if hash yc 2>/dev/null; then
+      YC=yc
+    elif hash yc.exe  2>/dev/null; then
+      YC=yc.exe
+    else
+      exit_err "yc is not installed"
+    fi
+  fi
+
+  if [ ! -e $(dirname $YCP) ]; then
+    mkdir -p $(dirname $YCP)
+  fi
+  
+  if [[ "$#" -eq 0 ]]; then
+    if [[ -t 1 &&  -z "${YCP_IGNORE_FZF:-}" && "$(type fzf &>/dev/null; echo $?)" -eq 0 ]]; then
+      choose_profile_interactive
+    else
+      list_profiles
+    fi
+  elif [[ "$#" -gt 1 ]]; then
+    echo "error: too many arguments" >&2
+    usage
+    exit 1
+  elif [[ "$#" -eq 1 ]]; then
+    if [[ "${1}" == "-" ]]; then
+      swap_profile
+    elif [[ "${1}" == '-c' || "${1}" == '--current' ]]; then
+      profiles=$($YC config profile list)
+      if grep -q ACTIVE <<<"$profiles"; then
+        $YC config profile list | awk '$2=="ACTIVE" {print $1}'
+      else
+        exit_err "No active yandex profiles found"
+      fi
+    elif [[ "${1}" == '-h' || "${1}" == '--help' ]]; then
+      usage
+    elif [[ "${1}" =~ ^-(.*) ]]; then
+      echo "error: unrecognized flag \"${1}\"" >&2
+      usage
+      exit 1
+    elif [[ "${1}" =~ (.+)=(.+) ]]; then
+      rename_profile "${BASH_REMATCH[2]}" "${BASH_REMATCH[1]}"
+    else
+      set_profile "${1}"
+    fi
+  else
+    usage
+    exit 1
+  fi
+}
+
+main "$@"
