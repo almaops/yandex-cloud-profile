@@ -2,12 +2,11 @@
 
 ![Proudly written in Bash](https://img.shields.io/badge/written%20in-bash-ff69b4.svg)
 
-This repository provides both `ycp` tools.
-[Install &rarr;](#installation)
+This repository provides a `ycp` tool. [Install &rarr;](#installation)
 
 ## What is `ycp`?
 
-**ycp** is a tool to switch between profiles on yc faster.<br/>
+**ycp** is a tool to switch between profiles on **yc** faster.<br/>
 
 ### Examples
 
