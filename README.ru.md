@@ -1,4 +1,4 @@
-# `ycp`: Простая утилита для перемещения между профилями Yandex Cloud
+# `ycp`: Утилита для перемещения между профилями Yandex Cloud
 
 ![Написано на Bash](https://img.shields.io/badge/written%20in-bash-ff69b4.svg)
 
@@ -6,20 +6,20 @@
 
 ## Что такое `ycp`?
 
-**ycp** -- это утилита для болнн быстрого перемещения между профилями **yc**.<br/>
+**ycp** -- это утилита для более быстрого перемещения между профилями **yc**.<br/>
 
 ### Примеры
 
 ```sh
-# switch to another profile
+# поменять профиль
 % ycp almaops-terraform-prod
 Profile 'almaops-terraform-prod' activated
 
-# switch back to previous profile
+# поменять профиль на предыдущий
 % ycp -
 Profile 'almaops-terraform-dev' activated
 
-# get current yandex cloud profile
+# напечатать текущий профиль yandex cloud
 % ycp -c
 almaops-terraform-dev
 ```
