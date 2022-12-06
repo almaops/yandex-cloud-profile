@@ -1,56 +1,57 @@
-# `ycp`: Just a tool to switch Yandex Cloud Profiles
+# `ycp`: Утилита для перемещения между профилями Yandex Cloud
 
-![Written in Bash](https://img.shields.io/badge/written%20in-bash-ff69b4.svg)
+![Написано на Bash](https://img.shields.io/badge/written%20in-bash-ff69b4.svg)
 
-This repository provides a `ycp` tool. [Install &rarr;](#installation)
+Этот репозиторий предоставляет утилиту `ycp`. [Установить &rarr;](#установка)
 
-## What is `ycp`?
+## Что такое `ycp`?
 
-**ycp** is a tool to switch between profiles on **yc** faster.<br/>
+**ycp** -- это утилита для более быстрого перемещения между профилями **yc**.<br/>
 
-### Examples
+### Примеры
 
 ```sh
-# switch to another profile
+# поменять профиль
 % ycp almaops-terraform-prod
 Profile 'almaops-terraform-prod' activated
 
-# switch back to previous profile
+# поменять профиль на предыдущий
 % ycp -
 Profile 'almaops-terraform-dev' activated
 
-# get current yandex cloud profile
+# напечатать текущий профиль yandex cloud
 % ycp -c
 almaops-terraform-dev
 ```
 
-If you have [`fzf`](https://github.com/junegunn/fzf) installed, you can also
-**interactively** select a profile, or fuzzy-search by typing a few
-characters. To learn more, read [interactive mode &rarr;](#interactive-mode)
+Если у вас установлен [`fzf`](https://github.com/junegunn/fzf), вы можете выбирать 
+профиль **интерактивно**, а также выполнять быстрый поиск по всего по нескольким символам.
+Чтобы узнать больше, прочитайте про [интерактивный режим &rarr;](#интерактивный-режим)
 
 -----
 
-## Installation
+## Установка
 
-Stable versions of `ycp` are small bash scripts that you can find in this repository.
+Стабильные версии `ycp` -- это небольшие bash-скрипты, которые вы можете найти в этом
+репозитории.
 
-**Installation options:**
+**Варианты установки:**
 
-- [manually (macOS & Linux)](#manual-installation-macos-and-linux)
+- [ручная (macOS & Linux)](#ручная-установка-macos-и-linux)
 
-### Manual Installation (MacOS and Linux)
+### Ручная установка (MacOS и Linux)
 
-Since `ycp` is written in Bash, you should be able to install it to any POSIX
-environment that has Bash installed.
+Поскольку `ycp` написан на Bash, вы сможете установить его в любом POSIX окружении,
+в котором есть Bash.
 
-- Download the `ycp` script.
-- Either:
-  - save it to somewhere in your `PATH`,
-  - or save them to a directory, then create symlink to `ycp` from
-    somewhere in your `PATH`, like `/usr/local/bin`
-- Make `ycp` executable (`chmod +x ...`)
+- Скачайте скрипт `ycp`.
+- Одно из двух:
+  - сохраните его куда-либо в свой `PATH`,
+  - либо сохраните его в директорю, и затем создайте симлинк на `ycp` откуда-либо
+    из вашего `PATH`, например из `/usr/local/bin`
+- Сделайте `ycp` исполняемым (`chmod +x ...`)
 
-Example installation steps:
+Пример шагов для установки:
 
 ``` bash
 sudo git clone https://github.com/almaops/ycp /opt/ycp
@@ -59,30 +60,29 @@ sudo ln -s /opt/ycp/ycp /usr/local/bin/ycp
 
 -----
 
-### Interactive mode
+### Интерактивный режим
 
-If you want `ycp` command to present you an interactive menu with fuzzy searching,
-you just need to [install `fzf`](https://github.com/junegunn/fzf) in your `$PATH`.
+Если вы хотите, чтобы команда `ycp` предоставляла вам интерактивный режим с быстрым поиском,
+вам просто нужно [установить `fzf`](https://github.com/junegunn/fzf) в свой `$PATH`.
 
-If you have `fzf` installed, but want to opt out of using this feature, set the
-environment variable `YCP_IGNORE_FZF=1`.
+Если у вас уже установлен `fzf`, но вы не хотите использовать это опцию, выставите переменную
+окружения `YCP_IGNORE_FZF=1`.
 
-If you want to keep `fzf` interactive mode but need the default behavior of the
-command, you can do it by piping the output to another command (e.g. `ycp | cat `).
+Если вы хотите оставить интерактивный режим `fzf`, но вам нужно поведение утилиты по-умолчанию,
+вы можете добиться этого просто перенаправив её вывод в другую команду (напр. `ycp | cat `).
 
 -----
 
-### Customizing colors
+### Настройка цветов
 
-If you like to customize the colors indicating the current profile,
-set the environment variables `YCP_CURRENT_FGCOLOR` and 
-`YCP_CURRENT_BGCOLOR` (refer color codes
-[here](https://linux.101hacks.com/ps1-examples/prompt-color-using-tput/)):
+Если вам захочется поменять цвета, обозначающие активный профиль,
+установите переменные `YCP_CURRENT_FGCOLOR` и
+`YCP_CURRENT_BGCOLOR` (справку по кодам цветов можно найти
+[тут](https://linux.101hacks.com/ps1-examples/prompt-color-using-tput/)):
 
 ```sh
 export YCP_CURRENT_FGCOLOR=$(tput setaf 6) # blue text
 export YCP_CURRENT_BGCOLOR=$(tput setab 7) # white background
 ```
 
-Colors in the output can be disabled by setting the
-[`NO_COLOR`](https://no-color.org/) environment variable.
+Цветной вывод можно отключить, выставив переменную окружения [`NO_COLOR`](https://no-color.org/).
