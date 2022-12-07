@@ -56,7 +56,7 @@ environment that has Bash installed.
 Example installation steps:
 
 ``` bash
-sudo git clone https://github.com/almaops/yandex-cloud-profile /opt/ycp
+sudo git clone https://github.com/almaops/yandex-cloud-profile /opt/yandex-cloud-profile
 sudo ln -s /opt/yandex-cloud-profile/ycp /usr/local/bin/ycp
 ```
 
