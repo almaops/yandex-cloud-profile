@@ -57,8 +57,8 @@ almaops-terraform-dev
 Пример шагов для установки:
 
 ``` bash
-sudo git clone https://github.com/almaops/ycp /opt/ycp
-sudo ln -s /opt/ycp/ycp /usr/local/bin/ycp
+sudo git clone https://github.com/almaops/yandex-cloud-profile /opt/yandex-cloud-profile
+sudo ln -s /opt/yandex-cloud-profile/ycp /usr/local/bin/ycp
 ```
 
 -----
@@ -72,7 +72,7 @@ sudo ln -s /opt/ycp/ycp /usr/local/bin/ycp
 окружения `YCP_IGNORE_FZF=1`.
 
 Если вы хотите оставить интерактивный режим `fzf`, но вам нужно поведение утилиты по-умолчанию,
-вы можете добиться этого просто перенаправив её вывод в другую команду (напр. `ycp | cat `).
+вы можете добиться этого просто перенаправив её вывод в другую команду (напр. `ycp | cat`).
 
 -----
 
