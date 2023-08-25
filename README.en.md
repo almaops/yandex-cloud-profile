@@ -27,9 +27,10 @@ Profile 'almaops-terraform-dev' activated
 almaops-terraform-dev
 ```
 
-If you have [`fzf`](https://github.com/junegunn/fzf) installed, you can also
-**interactively** select a profile, or fuzzy-search by typing a few
-characters. To learn more, read [interactive mode &rarr;](#interactive-mode)
+If you have [`fzf`](https://github.com/junegunn/fzf) installed, you
+can also **interactively** select a profile, or fuzzy-search by typing
+a few characters or words. To learn more, read [interactive mode
+&rarr;](#interactive-mode)
 
 -----
 
